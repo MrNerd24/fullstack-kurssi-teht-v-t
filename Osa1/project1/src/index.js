@@ -24,8 +24,9 @@ const Sisalto = (props) => {
 }
 
 const Yhteensa = (props) => {
+    const summa = props.osat.reduce((summa, osa) => {return summa + osa.tehtavia}, 0)
     return(
-        <p>yhteensä {props.summa} tehtävää</p>
+        <p>yhteensä {summa} tehtävää</p>
     )
 }
 
@@ -49,7 +50,7 @@ const App = () => {
         <div>
             <Otsikko kurssi='Half Stack -sovelluskehitys'/>
             <Sisalto osat={osat}/>
-            <Yhteensa summa={osat.reduce((summa, osa) => {return summa + osa.tehtavia}, 0)}/>
+            <Yhteensa osat={osat}/>
         </div>
     )
 }
