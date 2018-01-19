@@ -5,12 +5,17 @@ class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            selected: 0
+            selected: 0,
+            votes: new Array(anecdotes.length).fill(0)
         }
     }
 
     handleNextAnecdoteClick = () => {
         this.setState({selected: Math.floor(Math.random() * Math.floor(anecdotes.length))})
+    }
+
+    handleVoteClick = () => {
+        this.setState({votes:[...this.state.votes.slice(0,this.state.selected), this.state.votes[this.state.selected]+1, ...this.state.votes.slice(this.state.selected+1, anecdotes.length)]})
     }
 
     render() {
@@ -19,6 +24,12 @@ class App extends React.Component {
                 <p>
                     {this.props.anecdotes[this.state.selected]}
                 </p>
+                <p>
+                    Has {this.state.votes[this.state.selected]} votes
+                </p>
+                <button onClick={this.handleVoteClick}>
+                    Vote
+                </button>
                 <button onClick={this.handleNextAnecdoteClick}>
                     Next anecdote
                 </button>
