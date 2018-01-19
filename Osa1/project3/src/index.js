@@ -33,8 +33,27 @@ class App extends React.Component {
                 <button onClick={this.handleNextAnecdoteClick}>
                     Next anecdote
                 </button>
+                <h1>Anecdote with most votes:</h1>
+                <p>
+                    {this.props.anecdotes[this.getIndexOfMostPopular()]}
+                </p>
+                <p>
+                    Has {this.state.votes[this.getIndexOfMostPopular()]} votes
+                </p>
             </div>
         )
+    }
+
+    getIndexOfMostPopular() {
+        let maxVotes = -1
+        let maxIndex = 0
+        this.state.votes.forEach((vote, index) => {
+            if(vote > maxVotes) {
+                maxVotes = vote
+                maxIndex = index
+            }
+        })
+        return maxIndex
     }
 }
 
