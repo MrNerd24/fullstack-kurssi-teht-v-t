@@ -3,6 +3,9 @@ import Statistic from "./Statistic";
 
 export default class Statistics extends Component {
 
+    reviewsGiven() {
+        return this.props.counts.good > 0 || this.props.counts.neutral > 0 || this.props.counts.bad > 0
+    }
 
     getAverage() {
         let sum = this.props.counts.good-this.props.counts.bad
@@ -18,6 +21,16 @@ export default class Statistics extends Component {
 
 
     render() {
+        if(this.reviewsGiven()) {
+            return this.renderStatistics();
+        } else {
+            return this.renderNotice()
+        }
+
+    }
+
+
+    renderStatistics() {
         return (
             <div>
                 <Statistic
@@ -47,5 +60,11 @@ export default class Statistics extends Component {
     }
 
 
-
+    renderNotice() {
+        return (
+            <div>
+                <p>Ei yhtään palautetta annettu.</p>
+            </div>
+        )
+    }
 }
