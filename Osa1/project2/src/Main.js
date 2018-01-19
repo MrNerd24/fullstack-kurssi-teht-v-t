@@ -17,14 +17,22 @@ export default class Main extends Component {
 
     }
 
+    increaseValue = (type) => {
+        return () => {
+            let newState = {...this.state.counts}
+            newState[type]++
+            this.setState({counts: newState})
+        }
+    }
+
     render() {
         return (
             <div>
                 <h1>Anna palautetta</h1>
                 <OpinionButtons
-                    handleGoodClick={() => this.setState({counts: {...this.state.counts, good: this.state.counts.good +1}})}
-                    handleNeutralClick={() => this.setState({counts: {...this.state.counts, neutral: this.state.counts.neutral +1}})}
-                    handleBadClick={() => this.setState({counts: {...this.state.counts, bad: this.state.counts.bad +1}})}
+                    handleGoodClick={this.increaseValue("good")}
+                    handleNeutralClick={this.increaseValue("neutral")}
+                    handleBadClick={this.increaseValue("bad")}
                 />
                 <h1>Statistiikka</h1>
                 <Statistics counts={this.state.counts}/>
