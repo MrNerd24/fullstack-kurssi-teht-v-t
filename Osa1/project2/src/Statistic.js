@@ -4,9 +4,14 @@ export default class Statistic extends Component {
 
     render() {
         return(
-            <p {...this.props} >
-                {this.props.text}: {this.props.value} {this.props.unit}
-            </p>
+            <tr {...this.props}>
+                <td>
+                    {this.props.text}:
+                </td>
+                <td>
+                    {this.props.value} {this.props.unit}
+                </td>
+            </tr>
         )
     }
 
