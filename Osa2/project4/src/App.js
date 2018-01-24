@@ -12,10 +12,15 @@ class App extends React.Component {
     }
 
     handleSubmit = (event) => {
-
         event.preventDefault()
+
+        let persons = this.state.persons
+        if(!persons.some((person) => person.name === this.state.newName)) {
+            persons = [...persons, {name: this.state.newName}]
+        }
+
         this.setState({
-            persons: [...this.state.persons, {name: this.state.newName}],
+            persons,
             newName: ""
         })
     }
