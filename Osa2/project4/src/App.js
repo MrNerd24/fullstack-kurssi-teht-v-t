@@ -2,6 +2,7 @@ import React from 'react';
 import AddingForm from "./AddingForm";
 import TextInput from "./TextInput";
 import InformationTable from "./InformationTable";
+import Axios from 'axios'
 
 class App extends React.Component {
     constructor(props) {
@@ -17,6 +18,12 @@ class App extends React.Component {
             newNumber: '',
             filter: ''
         }
+    }
+
+    componentWillMount() {
+        Axios.get("http://localhost:3001/persons").then((response)=> {
+            this.setState({persons: response.data})
+        })
     }
 
     handleNameChange = (event) => {
