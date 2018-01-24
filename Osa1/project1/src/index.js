@@ -32,6 +32,18 @@ const Yhteensa = (props) => {
     )
 }
 
+const Kurssi = (props) => {
+    let kurssi = props.kurssi
+    return (
+        <div>
+            <Otsikko kurssi={kurssi.nimi}/>
+            <Sisalto osat={kurssi.osat}/>
+            <Yhteensa osat={kurssi.osat}/>
+        </div>
+
+    )
+}
+
 const App = () => {
     const kurssi = {
         nimi: 'Half Stack -sovelluskehitys',
@@ -54,9 +66,7 @@ const App = () => {
 
     return (
         <div>
-            <Otsikko kurssi={kurssi.nimi}/>
-            <Sisalto osat={kurssi.osat}/>
-            <Yhteensa osat={kurssi.osat}/>
+            <Kurssi kurssi={kurssi}/>
         </div>
     )
 }
