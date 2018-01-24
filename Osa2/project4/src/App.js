@@ -5,13 +5,14 @@ class App extends React.Component {
         super(props)
         this.state = {
             persons: [
-                {
-                    name: 'Arto Hellas',
-                    number: "040-123456"
-                }
+                { name: 'Arto Hellas', number: '040-123456' },
+                { name: 'Martti Tienari', number: '040-123456' },
+                { name: 'Arto Järvinen', number: '040-123456' },
+                { name: 'Lea Kutvonen', number: '040-123456' }
             ],
             newName: '',
-            newNro: ""
+            newNumber: '',
+            filter: ''
         }
     }
 
@@ -44,10 +45,24 @@ class App extends React.Component {
         })
     }
 
+    handleFilterChange = (event) => {
+        let value = event.target.value
+        this.setState({
+            filter: value
+        })
+    }
+
     render() {
+
+        let persons = this.state.filter ? this.state.persons.filter((person) => person.name.toLowerCase().search(this.state.filter.toLowerCase()) >= 0) : this.state.persons
+
         return (
             <div>
                 <h2>Puhelinluettelo</h2>
+                <div>
+                    Rajaa näytettäviä <input value={this.state.filter} onChange={this.handleFilterChange} />
+                </div>
+                <h2>Lisää uusi</h2>
                 <form onSubmit={this.handleSubmit}>
                     <div>
                         nimi: <input value={this.state.newName} onChange={this.handleNameChange}/>
@@ -62,7 +77,7 @@ class App extends React.Component {
                 <h2>Numerot</h2>
                 <table>
                     <tbody>
-                    {this.state.persons.map((person) => {
+                    {persons.map((person) => {
                         return (
                             <tr key={person.name}>
                                 <td>{person.name}</td>
