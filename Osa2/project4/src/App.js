@@ -5,9 +5,13 @@ class App extends React.Component {
         super(props)
         this.state = {
             persons: [
-                { name: 'Arto Hellas' }
+                {
+                    name: 'Arto Hellas',
+                    number: "040-123456"
+                }
             ],
-            newName: ''
+            newName: '',
+            newNro: ""
         }
     }
 
@@ -15,13 +19,14 @@ class App extends React.Component {
         event.preventDefault()
 
         let persons = this.state.persons
-        if(!persons.some((person) => person.name === this.state.newName)) {
-            persons = [...persons, {name: this.state.newName}]
+        if (!persons.some((person) => person.name === this.state.newName)) {
+            persons = [...persons, {name: this.state.newName, number: this.state.newNro}]
         }
 
         this.setState({
             persons,
-            newName: ""
+            newName: "",
+            newNro: ""
         })
     }
 
@@ -32,26 +37,42 @@ class App extends React.Component {
         })
     }
 
+    handleNumberChange = (event) => {
+        let value = event.target.value
+        this.setState({
+            newNro: value
+        })
+    }
+
     render() {
         return (
             <div>
                 <h2>Puhelinluettelo</h2>
                 <form onSubmit={this.handleSubmit}>
                     <div>
-                        nimi: <input value={this.state.newName} onChange={this.handleNameChange} />
+                        nimi: <input value={this.state.newName} onChange={this.handleNameChange}/>
+                    </div>
+                    <div>
+                        numero: <input value={this.state.newNro} onChange={this.handleNumberChange}/>
                     </div>
                     <div>
                         <button type="submit">lisää</button>
                     </div>
                 </form>
                 <h2>Numerot</h2>
-                <ul>
+                <table>
+                    <tbody>
                     {this.state.persons.map((person) => {
-                        return(
-                            <li key={person.name}>{person.name}</li>
+                        return (
+                            <tr key={person.name}>
+                                <td>{person.name}</td>
+                                <td>{person.number}</td>
+                            </tr>
                         )
                     })}
-                </ul>
+                    </tbody>
+
+                </table>
             </div>
         )
     }
