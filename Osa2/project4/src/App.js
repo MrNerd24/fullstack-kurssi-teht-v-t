@@ -1,4 +1,7 @@
 import React from 'react';
+import AddingForm from "./AddingForm";
+import TextInput from "./TextInput";
+import InformationTable from "./InformationTable";
 
 class App extends React.Component {
     constructor(props) {
@@ -16,21 +19,6 @@ class App extends React.Component {
         }
     }
 
-    handleSubmit = (event) => {
-        event.preventDefault()
-
-        let persons = this.state.persons
-        if (!persons.some((person) => person.name === this.state.newName)) {
-            persons = [...persons, {name: this.state.newName, number: this.state.newNro}]
-        }
-
-        this.setState({
-            persons,
-            newName: "",
-            newNro: ""
-        })
-    }
-
     handleNameChange = (event) => {
         let value = event.target.value
         this.setState({
@@ -41,9 +29,24 @@ class App extends React.Component {
     handleNumberChange = (event) => {
         let value = event.target.value
         this.setState({
-            newNro: value
+            newNumber: value
         })
     }
+
+    handleSubmit = () => {
+        let persons = this.state.persons
+        if (!persons.some((person) => person.name === this.state.newName)) {
+            persons = [...persons, {name: this.state.newName, number: this.state.newNumber}]
+        }
+
+        this.setState({
+            persons,
+            newName: "",
+            newNumber: ""
+        })
+    }
+
+
 
     handleFilterChange = (event) => {
         let value = event.target.value
@@ -59,35 +62,23 @@ class App extends React.Component {
         return (
             <div>
                 <h2>Puhelinluettelo</h2>
-                <div>
-                    Rajaa näytettäviä <input value={this.state.filter} onChange={this.handleFilterChange} />
-                </div>
+                <TextInput
+                    fieldName="Rajaa sisältöä"
+                    value={this.state.filter}
+                    handleValueChange={this.handleFilterChange}
+                />
                 <h2>Lisää uusi</h2>
-                <form onSubmit={this.handleSubmit}>
-                    <div>
-                        nimi: <input value={this.state.newName} onChange={this.handleNameChange}/>
-                    </div>
-                    <div>
-                        numero: <input value={this.state.newNro} onChange={this.handleNumberChange}/>
-                    </div>
-                    <div>
-                        <button type="submit">lisää</button>
-                    </div>
-                </form>
+                <AddingForm
+                    name={this.state.newName}
+                    number={this.state.newNumber}
+                    handleNameChange={this.handleNameChange}
+                    handleNumberChange={this.handleNumberChange}
+                    handleSubmit={this.handleSubmit}
+                />
                 <h2>Numerot</h2>
-                <table>
-                    <tbody>
-                    {persons.map((person) => {
-                        return (
-                            <tr key={person.name}>
-                                <td>{person.name}</td>
-                                <td>{person.number}</td>
-                            </tr>
-                        )
-                    })}
-                    </tbody>
-
-                </table>
+                <InformationTable
+                    persons={persons}
+                />
             </div>
         )
     }
