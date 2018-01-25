@@ -9,10 +9,10 @@ class App extends React.Component {
         super(props)
         this.state = {
             persons: [
-                { name: 'Arto Hellas', number: '040-123456' },
-                { name: 'Martti Tienari', number: '040-123456' },
-                { name: 'Arto Järvinen', number: '040-123456' },
-                { name: 'Lea Kutvonen', number: '040-123456' }
+                {name: 'Arto Hellas', number: '040-123456'},
+                {name: 'Martti Tienari', number: '040-123456'},
+                {name: 'Arto Järvinen', number: '040-123456'},
+                {name: 'Lea Kutvonen', number: '040-123456'}
             ],
             newName: '',
             newNumber: '',
@@ -21,7 +21,7 @@ class App extends React.Component {
     }
 
     componentWillMount() {
-        Axios.get("http://localhost:3001/persons").then((response)=> {
+        Axios.get("http://localhost:3001/persons").then((response) => {
             this.setState({persons: response.data})
         })
     }
@@ -41,18 +41,25 @@ class App extends React.Component {
     }
 
     handleSubmit = () => {
+        let newPerson = {name: this.state.newName, number: this.state.newNumber}
         let persons = this.state.persons
+
         if (!persons.some((person) => person.name === this.state.newName)) {
-            persons = [...persons, {name: this.state.newName, number: this.state.newNumber}]
+            Axios.post("http://localhost:3001/persons", newPerson).then((response) => {
+                newPerson = response.data
+
+                persons = [...persons, newPerson]
+                this.setState({
+                    persons
+                })
+            })
         }
 
         this.setState({
-            persons,
             newName: "",
             newNumber: ""
         })
     }
-
 
 
     handleFilterChange = (event) => {
