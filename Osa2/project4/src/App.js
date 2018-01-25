@@ -2,7 +2,7 @@ import React from 'react';
 import AddingForm from "./AddingForm";
 import TextInput from "./TextInput";
 import InformationTable from "./InformationTable";
-import Axios from 'axios'
+import ServerDao from "./ServerDao";
 
 class App extends React.Component {
     constructor(props) {
@@ -18,12 +18,13 @@ class App extends React.Component {
             newNumber: '',
             filter: ''
         }
+
+        this.serverDao = new ServerDao()
     }
 
-    componentWillMount() {
-        Axios.get("http://localhost:3001/persons").then((response) => {
-            this.setState({persons: response.data})
-        })
+    async componentWillMount() {
+        let data = await this.serverDao.getPersons()
+        this.setState({persons: data})
     }
 
     handleNameChange = (event) => {
@@ -40,22 +41,21 @@ class App extends React.Component {
         })
     }
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
+        console.log(this.state)
         let newPerson = {name: this.state.newName, number: this.state.newNumber}
         let persons = this.state.persons
-
+        console.log(newPerson)
+        console.log(persons)
         if (!persons.some((person) => person.name === this.state.newName)) {
-            Axios.post("http://localhost:3001/persons", newPerson).then((response) => {
-                newPerson = response.data
-
-                persons = [...persons, newPerson]
-                this.setState({
-                    persons
-                })
-            })
+            let newPersonWithId = await this.serverDao.postPerson(newPerson)
+            console.log(newPersonWithId)
+            persons = [...persons, newPersonWithId]
+            console.log(persons)
         }
 
         this.setState({
+            persons,
             newName: "",
             newNumber: ""
         })
