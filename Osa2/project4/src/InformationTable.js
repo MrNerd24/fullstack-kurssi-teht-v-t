@@ -9,7 +9,7 @@ export default class InformationTable extends Component {
                 <tbody>
                 {this.props.persons.map((person) => {
                     return (
-                        <InformationRow key={person.name} person={person}/>
+                        <InformationRow handleDeleteClick={this.props.handleDeleteClick} key={person.name} person={person}/>
                     )
                 })}
                 </tbody>

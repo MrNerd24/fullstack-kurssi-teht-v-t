@@ -20,15 +20,17 @@ export default class ServerDao {
     }
 
     postPerson = async (person) => {
-        console.log("axious", person)
         let response = await Axios.post(this.baseURL + "persons", person)
-        console.log(response)
         return response.data
     }
 
     updatePerson = async (id,person) => {
         let response = await Axios.put(this.baseURL + "persons/" + id, person)
         return response.data
+    }
+
+    deletePerson = async (id) => {
+        Axios.delete(this.baseURL + "persons/" + id)
     }
 
 }
