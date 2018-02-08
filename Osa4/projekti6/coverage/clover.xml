@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1518088336989" clover="3.2.0">
-  <project timestamp="1518088336989" name="All files">
-    <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3" elements="8" coveredelements="8" complexity="0" loc="5" ncloc="5" packages="1" files="1" classes="1">
+<coverage generated="1518089239692" clover="3.2.0">
+  <project timestamp="1518089239693" name="All files">
+    <metrics statements="21" coveredstatements="21" conditionals="6" coveredconditionals="6" methods="7" coveredmethods="7" elements="34" coveredelements="34" complexity="0" loc="21" ncloc="21" packages="1" files="1" classes="1">
       <file name="list_helpers.js" path="C:\Users\Juuso Lassila\OneDrive\Asiakirjat\Opiskelu\Harjoitukset\fullstack\fullstack-kurssi-tehtavat\Osa4\projekti6\utils\list_helpers.js">
-        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <metrics statements="21" coveredstatements="21" conditionals="6" coveredconditionals="6" methods="7" coveredmethods="7"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="7" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
+        <line num="10" count="9" type="stmt"/>
+        <line num="11" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+        <line num="27" count="7" type="stmt"/>
+        <line num="28" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
       </file>
     </metrics>
   </project>
