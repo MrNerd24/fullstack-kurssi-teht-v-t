@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "watch": "node_modules/.bin/nodemon app.js"
+    "watch": "node_modules/.bin/nodemon app.js",
+    "test": "node_modules/.bin/jest --verbose --coverage"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -19,6 +20,7 @@
     "serve-favicon": "~2.4.5"
   },
   "devDependencies": {
+    "jest": "^22.2.1",
     "nodemon": "^1.14.12"
   }
 }
