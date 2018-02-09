@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">55.56% </span>
+        <span class="strong">65.52% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>15/27</span>
+        <span class='fraction'>19/29</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -30,14 +30,14 @@
         <span class='fraction'>0/0</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">33.33% </span>
+        <span class="strong">60% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/6</span>
+        <span class='fraction'>3/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">55.56% </span>
+        <span class="strong">65.52% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>15/27</span>
+        <span class='fraction'>19/29</span>
       </div>
     </div>
   </div>
@@ -89,29 +89,35 @@
 44
 45
 46
-47</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+47
+48
+49
+50</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -149,25 +155,28 @@ Router.get('/', async (request, response) =&gt; {
 	try {
 		let blogs = await Blog.find({})
 		response.json(blogs.map(formatBlog))
-	} catch(e) {
+	} catch (e) {
 <span class="cstat-no" title="statement not covered" >		response.status(400).json({error: e.toString()})</span>
 	}
 })
 &nbsp;
-Router.post('/', <span class="fstat-no" title="function not covered" >(r</span>equest, response) =&gt; {
-	const blog = <span class="cstat-no" title="statement not covered" >new Blog(request.body)</span>
+Router.post('/', async (request, response) =&gt; {
+	try{
+		const blog = new Blog(request.body)
 &nbsp;
-<span class="cstat-no" title="statement not covered" >	blog.save().then(<span class="fstat-no" title="function not covered" >re</span>sult =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >		response.status(201).json(result)</span>
-	})
+		let result = await blog.save()
+		response.status(201).json(result)
+	}catch(e) {
+<span class="cstat-no" title="statement not covered" >		response.status(500).json({error: e.toString()})</span>
+	}
 })
 &nbsp;
 Router.delete('/', <span class="fstat-no" title="function not covered" >as</span>ync (request, response) =&gt; {
 <span class="cstat-no" title="statement not covered" >	try {</span>
 <span class="cstat-no" title="statement not covered" >		await blog.remove({})</span>
 <span class="cstat-no" title="statement not covered" >		response.status(204).end()</span>
-	} catch(e) {
-<span class="cstat-no" title="statement not covered" >		response.status(400).send({ error: 'malformatted id' })</span>
+	} catch (e) {
+<span class="cstat-no" title="statement not covered" >		response.status(400).send({error: 'malformatted id'})</span>
 	}
 &nbsp;
 })
@@ -176,8 +185,8 @@ Router.delete('/:id', <span class="fstat-no" title="function not covered" >as</s
 <span class="cstat-no" title="statement not covered" >	try {</span>
 <span class="cstat-no" title="statement not covered" >		await blog.findByIdAndRemove(request.params.id)</span>
 <span class="cstat-no" title="statement not covered" >		response.status(204).end()</span>
-	} catch(e) {
-<span class="cstat-no" title="statement not covered" >		response.status(400).send({ error: 'malformatted id' })</span>
+	} catch (e) {
+<span class="cstat-no" title="statement not covered" >		response.status(400).send({error: 'malformatted id'})</span>
 	}
 })
 &nbsp;
@@ -187,7 +196,7 @@ module.exports = Router</pre></td></tr>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Feb 09 2018 10:48:33 GMT+0200 (FLE Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Feb 09 2018 10:58:54 GMT+0200 (FLE Standard Time)
 </div>
 </div>
 <script src="..\..\prettify.js"></script>

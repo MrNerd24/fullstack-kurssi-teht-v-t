@@ -52,12 +52,30 @@ beforeAll(async () => {
 describe("Blogs", () => {
 
 	test('get gives correct blogs', async () => {
-		let response = await api.get('/api/blogs')
+		let response = await api.get('/api/blogs').expect(200).expect('Content-Type', /application\/json/)
 
 		let titles = response.body.map((blog) => blog.title)
 
 		expect(titles).toContainEqual("TDD harms architecture")
 		expect(titles).toContainEqual("React patterns")
+	})
+
+	test('posting works correctly', async () => {
+		let newBlog = {
+			title: "Hieeno blogi",
+			author: "minä",
+			url: "ei ole",
+			likes: 1000
+		}
+
+		await api.post('/api/blogs').send(newBlog).expect(201).expect('Content-Type', /application\/json/)
+
+		let response = await api.get('/api/blogs').expect(200).expect('Content-Type', /application\/json/)
+
+		let titles = response.body.map((responseItem) => responseItem.title)
+
+		expect(titles).toContain('Hieeno blogi')
+
 	})
 
 })

@@ -12,25 +12,28 @@ Router.get('/', async (request, response) => {
 	try {
 		let blogs = await Blog.find({})
 		response.json(blogs.map(formatBlog))
-	} catch(e) {
+	} catch (e) {
 		response.status(400).json({error: e.toString()})
 	}
 })
 
-Router.post('/', (request, response) => {
-	const blog = new Blog(request.body)
+Router.post('/', async (request, response) => {
+	try{
+		const blog = new Blog(request.body)
 
-	blog.save().then(result => {
+		let result = await blog.save()
 		response.status(201).json(result)
-	})
+	}catch(e) {
+		response.status(500).json({error: e.toString()})
+	}
 })
 
 Router.delete('/', async (request, response) => {
 	try {
 		await blog.remove({})
 		response.status(204).end()
-	} catch(e) {
-		response.status(400).send({ error: 'malformatted id' })
+	} catch (e) {
+		response.status(400).send({error: 'malformatted id'})
 	}
 
 })
@@ -39,8 +42,8 @@ Router.delete('/:id', async (request, response) => {
 	try {
 		await blog.findByIdAndRemove(request.params.id)
 		response.status(204).end()
-	} catch(e) {
-		response.status(400).send({ error: 'malformatted id' })
+	} catch (e) {
+		response.status(400).send({error: 'malformatted id'})
 	}
 })
 
