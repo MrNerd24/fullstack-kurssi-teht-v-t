@@ -19,6 +19,10 @@ Router.get('/', async (request, response) => {
 
 Router.post('/', async (request, response) => {
 	try{
+		if(!request.body.title || !request.body.url) {
+			return response.status(400).json({error: 'missing title or url'})
+		}
+
 		if(!request.body.likes) {
 			request.body.likes = 0;
 		}

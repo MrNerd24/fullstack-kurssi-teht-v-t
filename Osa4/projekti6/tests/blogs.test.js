@@ -94,6 +94,23 @@ describe("Blogs", () => {
 		expect(addedBlog.likes).toBe(0)
 	})
 
+	test('new blogs without title or url get rejected', async () => {
+		let newBlog = {
+			author: "minä",
+		}
+
+		await api.post('/api/blogs').send(newBlog).expect(400)
+
+		newBlog.url = "ei ole"
+
+		await api.post('/api/blogs').send(newBlog).expect(400)
+
+		newBlog.title = "Nimetön blogi"
+		delete newBlog.url
+
+		await api.post('/api/blogs').send(newBlog).expect(400)
+	})
+
 })
 
 
