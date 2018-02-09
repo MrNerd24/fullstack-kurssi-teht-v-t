@@ -1,12 +1,20 @@
 const Router = require('express').Router()
 const Blog = require('../models/blog')
 
-Router.get('/', (request, response) => {
-	Blog.find({}).then(blogs => {
-		response.json(blogs)
-	}).catch(error => {
-		response.status(400).json({error: error.toString()})
-	})
+let formatBlog = (blog) => {
+	let newblog = {...blog._doc, id: blog._id}
+	delete newblog._id
+	delete newblog.__v
+	return newblog
+}
+
+Router.get('/', async (request, response) => {
+	try {
+		let blogs = await Blog.find({})
+		response.json(blogs.map(formatBlog))
+	} catch(e) {
+		response.status(400).json({error: e.toString()})
+	}
 })
 
 Router.post('/', (request, response) => {
@@ -15,6 +23,25 @@ Router.post('/', (request, response) => {
 	blog.save().then(result => {
 		response.status(201).json(result)
 	})
+})
+
+Router.delete('/', async (request, response) => {
+	try {
+		await blog.remove({})
+		response.status(204).end()
+	} catch(e) {
+		response.status(400).send({ error: 'malformatted id' })
+	}
+
+})
+
+Router.delete('/:id', async (request, response) => {
+	try {
+		await blog.findByIdAndRemove(request.params.id)
+		response.status(204).end()
+	} catch(e) {
+		response.status(400).send({ error: 'malformatted id' })
+	}
 })
 
 module.exports = Router
