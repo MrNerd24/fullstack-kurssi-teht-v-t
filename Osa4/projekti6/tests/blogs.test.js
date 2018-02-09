@@ -78,6 +78,22 @@ describe("Blogs", () => {
 
 	})
 
+	test('posting without defined likes sets likes to 0', async () => {
+		let newBlog = {
+			title: "Huono blogi",
+			author: "minä",
+			url: "ei ole",
+		}
+
+		await api.post('/api/blogs').send(newBlog).expect(201).expect('Content-Type', /application\/json/)
+
+		let response = await api.get('/api/blogs').expect(200).expect('Content-Type', /application\/json/)
+
+		let addedBlog = response.body.find((responseItem) => responseItem.title === "Huono blogi")
+
+		expect(addedBlog.likes).toBe(0)
+	})
+
 })
 
 

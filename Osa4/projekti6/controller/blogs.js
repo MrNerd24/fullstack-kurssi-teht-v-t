@@ -19,6 +19,9 @@ Router.get('/', async (request, response) => {
 
 Router.post('/', async (request, response) => {
 	try{
+		if(!request.body.likes) {
+			request.body.likes = 0;
+		}
 		const blog = new Blog(request.body)
 
 		let result = await blog.save()
