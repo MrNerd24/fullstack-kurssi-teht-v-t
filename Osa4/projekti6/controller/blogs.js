@@ -29,7 +29,7 @@ Router.post('/', async (request, response) => {
 		const blog = new Blog(request.body)
 
 		let result = await blog.save()
-		response.status(201).json(result)
+		response.status(201).json(formatBlog(result))
 	}catch(e) {
 		response.status(500).json({error: e.toString()})
 	}
@@ -37,20 +37,29 @@ Router.post('/', async (request, response) => {
 
 Router.delete('/', async (request, response) => {
 	try {
-		await blog.remove({})
+		await Blog.remove({})
 		response.status(204).end()
 	} catch (e) {
-		response.status(400).send({error: 'malformatted id'})
+		response.status(404).json({error: 'not found'})
 	}
 
 })
 
 Router.delete('/:id', async (request, response) => {
 	try {
-		await blog.findByIdAndRemove(request.params.id)
+		await Blog.findByIdAndRemove(request.params.id)
 		response.status(204).end()
 	} catch (e) {
-		response.status(400).send({error: 'malformatted id'})
+		response.status(404).json({error: 'not found'})
+	}
+})
+
+Router.put('/:id', async (request,response) => {
+	try {
+		let newBlog = await Blog.findByIdAndUpdate(request.params.id, request.body).exec()
+		response.status(200).json(formatBlog(newBlog))
+	} catch (e) {
+		response.status(404).json({error: 'not found'})
 	}
 })
 

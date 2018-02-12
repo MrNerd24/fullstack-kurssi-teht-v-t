@@ -111,6 +111,57 @@ describe("Blogs", () => {
 		await api.post('/api/blogs').send(newBlog).expect(400)
 	})
 
+	test('deleting individual blog works correctly', async () => {
+		let newBlog = {
+			author: "minä",
+			title: "tuhma blogi",
+			url: 'ei ole',
+		}
+
+		let response = await api.post('/api/blogs').send(newBlog).expect(201)
+
+		await api.delete('/api/blogs/' + response.body.id).expect(204)
+	})
+
+	test("404 returned when trying to delete something that doesn't exist", async () => {
+		await api.delete('/api/blogs/' + 42).expect(404)
+	})
+
+	test('updating works with expected input', async () => {
+		let newBlog = {
+			author: "minä",
+			title: "ok blogi",
+			url: 'ei ole',
+		}
+
+		let response = await api.post('/api/blogs').send(newBlog).expect(201)
+
+		let blogsInDb = await api.get('/api/blogs').expect(200)
+
+		expect(blogsInDb.body.map((blog) => blog.title)).toContain('ok blogi')
+
+		newBlog.title = "parempi blogi"
+
+		await api.put('/api/blogs/' + response.body.id).send(newBlog).expect(200)
+
+		blogsInDb = await api.get('/api/blogs').expect(200)
+
+		expect(blogsInDb.body.map((blog) => blog.title)).toContain('parempi blogi')
+		expect(blogsInDb.body.map((blog) => blog.title)).not.toContain('ok blogi')
+
+	})
+
+	test('put with incorrect id returns 404', async () => {
+
+		let newBlog = {
+			author: "minä",
+			title: "ok blogi",
+			url: 'ei ole',
+		}
+
+		await api.put('/api/blogs/' + 1337).send(newBlog).expect(404)
+	})
+
 })
 
 
