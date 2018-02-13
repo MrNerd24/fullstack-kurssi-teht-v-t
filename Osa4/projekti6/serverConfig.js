@@ -17,6 +17,8 @@ if(process.env.NODE_ENV !== 'test') {
 	DBURI = process.env.TEST_MONGODB_URI
 }
 
-module.exports = {PORT, DBURI}
+let TOKEN_SECRET = process.env.TOKEN_SECRET
+
+module.exports = {PORT, DBURI, TOKEN_SECRET}
 
 

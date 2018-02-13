@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for projekti6/serverConfig.js</title>
+    <title>Code coverage report for projekti6/models/user.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="..\prettify.css" />
-    <link rel="stylesheet" href="..\base.css" />
+    <link rel="stylesheet" href="..\..\prettify.css" />
+    <link rel="stylesheet" href="..\..\base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(..\sort-arrow-sprite.png);
+            background-image: url(..\..\sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,32 +16,32 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="..\index.html">All files</a> / <a href="index.html">projekti6</a> serverConfig.js
+      <a href="..\..\index.html">All files</a> / <a href="index.html">projekti6/models</a> user.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">80% </span>
+        <span class="strong">77.78% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>8/10</span>
+        <span class='fraction'>7/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>3/6</span>
+        <span class='fraction'>0/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/0</span>
+        <span class='fraction'>1/1</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">80% </span>
+        <span class="strong">77.78% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>8/10</span>
+        <span class='fraction'>7/9</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -67,55 +67,73 @@
 22
 23
 24
-25</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+25
+26
+27
+28
+29
+30
+31</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="missing-if-branch" title="else path not taken" >E</span>if ( process.env.NODE_ENV !== 'production' ) {
-	require('dotenv').config()
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">let mongoose = require('../mongooseConfig')
+let Schema = mongoose.Schema
+&nbsp;
+let userSchema = new Schema({
+	username: String,
+	name: String,
+	passwordHash: String,
+	adult: Boolean,
+	blogs: [{ type: Schema.Types.ObjectId, ref: 'Blog' }]
+});
+&nbsp;
+userSchema.statics.format = (user) =&gt; {
+	if(user.username) {
+<span class="cstat-no" title="statement not covered" >		return {</span>
+			username: user.username,
+			name: user.name,
+			adult: user.adult,
+			blogs: user.blogs,
+			id: user._id
+		}
+	} else {
+<span class="cstat-no" title="statement not covered" >		return user.toString()</span>
+	}
+&nbsp;
 }
 &nbsp;
-&nbsp;
-let PORT
-<span class="missing-if-branch" title="if path not taken" >I</span>if(process.env.NODE_ENV !== 'test') {
-<span class="cstat-no" title="statement not covered" >	PORT = process.env.PORT</span>
-} else {
-	POT = process.env.TEST_PORT
-}
-&nbsp;
-let DBURI
-<span class="missing-if-branch" title="if path not taken" >I</span>if(process.env.NODE_ENV !== 'test') {
-<span class="cstat-no" title="statement not covered" >	DBURI = process.env.MONGODB_URI</span>
-} else {
-	DBURI = process.env.TEST_MONGODB_URI
-}
-&nbsp;
-let TOKEN_SECRET = process.env.TOKEN_SECRET
-&nbsp;
-module.exports = {PORT, DBURI, TOKEN_SECRET}
+const User = mongoose.model('User', userSchema)
 &nbsp;
 &nbsp;
-&nbsp;</pre></td></tr>
+&nbsp;
+module.exports = User</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
@@ -124,7 +142,7 @@ module.exports = {PORT, DBURI, TOKEN_SECRET}
   generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Feb 12 2018 13:27:50 GMT+0200 (FLE Standard Time)
 </div>
 </div>
-<script src="..\prettify.js"></script>
+<script src="..\..\prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -132,6 +150,6 @@ window.onload = function () {
         }
 };
 </script>
-<script src="..\sorter.js"></script>
+<script src="..\..\sorter.js"></script>
 </body>
 </html>

@@ -1,37 +1,50 @@
 const Router = require('express').Router()
 const Blog = require('../models/blog')
+const Jwt = require('jsonwebtoken')
+const TOKEN_SECRET = require('../serverConfig').TOKEN_SECRET
+const User = require('../models/user')
 
-let formatBlog = (blog) => {
-	let newblog = {...blog._doc, id: blog._id}
-	delete newblog._id
-	delete newblog.__v
-	return newblog
-}
 
 Router.get('/', async (request, response) => {
 	try {
-		let blogs = await Blog.find({})
-		response.json(blogs.map(formatBlog))
+		let blogs = await Blog.find({}).populate('user')
+		response.json(blogs.map(Blog.format))
 	} catch (e) {
-		response.status(400).json({error: e.toString()})
+		console.log(e)
+		response.status(400).json({error: 'Something went wrong.'})
 	}
 })
 
 Router.post('/', async (request, response) => {
 	try{
-		if(!request.body.title || !request.body.url) {
-			return response.status(400).json({error: 'missing title or url'})
+		let body = request.body;
+		if(!body.title || !body.url) {
+			return response.status(400).json({error: 'Missing title or url.'})
 		}
 
-		if(!request.body.likes) {
-			request.body.likes = 0;
+		let decodedToken = Jwt.verify(request.token, TOKEN_SECRET)
+		if(!request.token || !decodedToken.id) {
+			return response.status(401).json({ error: 'Token missing or invalid.' })
 		}
-		const blog = new Blog(request.body)
 
-		let result = await blog.save()
-		response.status(201).json(formatBlog(result))
+		if(!body.likes) {
+			body.likes = 0;
+		}
+
+		let user = await User.findById(decodedToken.id).exec()
+		body = {...body, user: user._id.toString()}
+
+		let blog = new Blog(body)
+
+		let savedBlog = await blog.save()
+
+		user.blogs = [...user.blogs, savedBlog._id]
+		await user.save()
+
+		response.status(201).json(Blog.format(savedBlog))
 	}catch(e) {
-		response.status(500).json({error: e.toString()})
+		console.log(e)
+		response.status(500).json({error: 'Something went wrong.'})
 	}
 })
 
@@ -42,12 +55,22 @@ Router.delete('/', async (request, response) => {
 	} catch (e) {
 		response.status(404).json({error: 'not found'})
 	}
-
 })
 
 Router.delete('/:id', async (request, response) => {
 	try {
-		await Blog.findByIdAndRemove(request.params.id)
+
+		let decodedToken = Jwt.verify(request.token, TOKEN_SECRET)
+		if(!request.token || !decodedToken.id) {
+			return response.status(401).json({ error: 'Token missing or invalid.' })
+		}
+
+		let blog = await Blog.findById(request.params.id).exec()
+		if(blog.user.toString() !== decodedToken.id.toString()) {
+			return response.status(401).json({error: "You can only remove your own blogs."})
+		}
+
+		await blog.remove()
 		response.status(204).end()
 	} catch (e) {
 		response.status(404).json({error: 'not found'})
@@ -57,7 +80,7 @@ Router.delete('/:id', async (request, response) => {
 Router.put('/:id', async (request,response) => {
 	try {
 		let newBlog = await Blog.findByIdAndUpdate(request.params.id, request.body).exec()
-		response.status(200).json(formatBlog(newBlog))
+		response.status(200).json(Blog.format(newBlog))
 	} catch (e) {
 		response.status(404).json({error: 'not found'})
 	}

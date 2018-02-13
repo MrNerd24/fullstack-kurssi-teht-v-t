@@ -136,18 +136,18 @@ describe("Blogs", () => {
 
 		let response = await api.post('/api/blogs').send(newBlog).expect(201)
 
-		let blogsInDb = await api.get('/api/blogs').expect(200)
+		let blogsInDb = await Blog.find({}).exec()
 
-		expect(blogsInDb.body.map((blog) => blog.title)).toContain('ok blogi')
+		expect(blogsInDb.map((blog) => blog.title)).toContain('ok blogi')
 
 		newBlog.title = "parempi blogi"
 
 		await api.put('/api/blogs/' + response.body.id).send(newBlog).expect(200)
 
-		blogsInDb = await api.get('/api/blogs').expect(200)
+		blogsInDb = await Blog.find({}).exec()
 
-		expect(blogsInDb.body.map((blog) => blog.title)).toContain('parempi blogi')
-		expect(blogsInDb.body.map((blog) => blog.title)).not.toContain('ok blogi')
+		expect(blogsInDb.map((blog) => blog.title)).toContain('parempi blogi')
+		expect(blogsInDb.map((blog) => blog.title)).not.toContain('ok blogi')
 
 	})
 
