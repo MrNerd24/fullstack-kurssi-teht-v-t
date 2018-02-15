@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import TextField from "./TextField";
 
 export default class LoginForm extends Component {
 
@@ -9,28 +10,12 @@ export default class LoginForm extends Component {
 					Log in to application
 				</h1>
 				<form onSubmit={this.props.onSubmitClick}>
-					<div>
-						username:
-						<input
-							type="text"
-							name="username"
-							value={this.props.username}
-							onChange={this.props.onUsernameChange}
-						/>
-					</div>
-					<div>
-						password:
-						<input
-							type="password"
-							name="password"
-							value={this.props.password}
-							onChange={this.props.onPasswordChange}
-						/>
-					</div>
+					<TextField label="Username" value={this.props.username} onChange={this.props.onUsernameChange}/>
+					<TextField type="password" label="Password" value={this.props.password} onChange={this.props.onPasswordChange}/>
 					<div>
 						<input
 							type="submit"
-							value="login"
+							value="Login"
 						/>
 					</div>
 				</form>
