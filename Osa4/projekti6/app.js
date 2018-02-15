@@ -20,6 +20,7 @@ app.use(bodyParser.json())
 app.use('/api/users', userRouter)
 app.use('/api/blogs', blogsRouter)
 app.use('/api/login', loginRouter)
+app.use(express.static('bloglist-frontend/build'))
 
 let server = http.createServer(app)
 
