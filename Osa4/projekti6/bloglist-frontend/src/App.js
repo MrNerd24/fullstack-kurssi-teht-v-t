@@ -1,11 +1,11 @@
 import React from 'react'
-import Blog from './components/Blog'
 import blogService from './services/blogs'
 import LoginForm from "./components/LoginForm";
 import Login from "./services/Login";
 import BlogList from "./components/BlogList";
 import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
+import Togglable from "./components/Togglable";
 
 class App extends React.Component {
 
@@ -28,9 +28,12 @@ class App extends React.Component {
 
 	componentWillMount() {
 		Login.loginWithLocalstorage().then((user) => this.setState({user}))
-		blogService.getAll().then(blogs =>
-			this.setState({blogs})
-		)
+		this.updateBlogs()
+	}
+
+	updateBlogs = async () => {
+		let blogs = await blogService.getAll()
+		this.setState({blogs})
 	}
 
 	handleLogin = async (event) => {
@@ -65,6 +68,24 @@ class App extends React.Component {
 
 	}
 
+	handleBlogLike = async (blog) => {
+		await blogService.addLike(blog)
+		this.updateBlogs()
+	}
+
+	handleBlogDelete = async (blog) => {
+		try{
+			if(window.confirm("Delete " + blog.title + " by " + blog.author + "?")) {
+				await blogService.removeBlog(blog, this.state.user.token)
+				this.updateBlogs()
+			}
+		} catch (e) {
+			this.setState({notification: e.response.data.error, color: "red"})
+			this.notification.showMessage(3000)
+		}
+
+	}
+
 	renderLoginForm() {
 		return (
 			<LoginForm
@@ -85,22 +106,24 @@ class App extends React.Component {
 				<h1>Blogs</h1>
 				<p>{this.state.user.name} logged in.</p>
 				<button onClick={this.handleLogout}>Logout</button>
-				<BlogList blogs={this.state.blogs}/>
+				<BlogList user={this.state.user} onBlogDelete={this.handleBlogDelete} onBlogLike={this.handleBlogLike} blogs={this.state.blogs.sort((a,b) => b.likes-a.likes)}/>
 			</div>
 		);
 	}
 
 	renderCreateBlog() {
 		return(
-			<BlogForm
-				onSubmitClick={this.handleAddBlogClick}
-				title={this.state.title}
-				author={this.state.author}
-				url={this.state.url}
-				onTitleChange={(event) => this.setState({title: event.target.value})}
-				onAuthorChange={(event) => this.setState({author: event.target.value})}
-				onUrlChange={(event) => this.setState({url: event.target.value})}
-			/>
+			<Togglable buttonLabel="Add blog">
+				<BlogForm
+					onSubmitClick={this.handleAddBlogClick}
+					title={this.state.title}
+					author={this.state.author}
+					url={this.state.url}
+					onTitleChange={(event) => this.setState({title: event.target.value})}
+					onAuthorChange={(event) => this.setState({author: event.target.value})}
+					onUrlChange={(event) => this.setState({url: event.target.value})}
+				/>
+			</Togglable>
 		)
 	}
 
