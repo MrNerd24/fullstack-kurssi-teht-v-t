@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1518434870165" clover="3.2.0">
-  <project timestamp="1518434870166" name="All files">
-    <metrics statements="194" coveredstatements="140" conditionals="58" coveredconditionals="21" methods="26" coveredmethods="21" elements="278" coveredelements="182" complexity="0" loc="194" ncloc="194" packages="4" files="9" classes="9">
+<coverage generated="1519023672083" clover="3.2.0">
+  <project timestamp="1519023672083" name="All files">
+    <metrics statements="207" coveredstatements="148" conditionals="66" coveredconditionals="25" methods="27" coveredmethods="21" elements="300" coveredelements="194" complexity="0" loc="207" ncloc="207" packages="4" files="9" classes="9">
       <package name="projekti6">
-        <metrics statements="41" coveredstatements="38" conditionals="10" coveredconditionals="5" methods="3" coveredmethods="2"/>
+        <metrics statements="42" coveredstatements="39" conditionals="10" coveredconditionals="5" methods="3" coveredmethods="2"/>
         <file name="app.js" path="C:\Users\Juuso Lassila\OneDrive\Asiakirjat\Opiskelu\Harjoitukset\fullstack\fullstack-kurssi-tehtavat\Osa4\projekti6\app.js">
-          <metrics statements="26" coveredstatements="25" conditionals="4" coveredconditionals="2" methods="3" coveredmethods="2"/>
+          <metrics statements="27" coveredstatements="26" conditionals="4" coveredconditionals="2" methods="3" coveredmethods="2"/>
           <line num="1" count="1" type="stmt"/>
           <line num="2" count="1" type="stmt"/>
           <line num="3" count="1" type="stmt"/>
@@ -25,13 +25,14 @@
           <line num="20" count="1" type="stmt"/>
           <line num="21" count="1" type="stmt"/>
           <line num="22" count="1" type="stmt"/>
-          <line num="24" count="1" type="stmt"/>
-          <line num="26" count="1" type="stmt"/>
+          <line num="23" count="1" type="stmt"/>
+          <line num="25" count="1" type="stmt"/>
           <line num="27" count="1" type="stmt"/>
           <line num="28" count="1" type="stmt"/>
-          <line num="31" count="1" type="stmt"/>
-          <line num="32" count="0" type="stmt"/>
-          <line num="35" count="1" type="stmt"/>
+          <line num="29" count="1" type="stmt"/>
+          <line num="32" count="1" type="stmt"/>
+          <line num="33" count="0" type="stmt"/>
+          <line num="36" count="1" type="stmt"/>
         </file>
         <file name="mongooseConfig.js" path="C:\Users\Juuso Lassila\OneDrive\Asiakirjat\Opiskelu\Harjoitukset\fullstack\fullstack-kurssi-tehtavat\Osa4\projekti6\mongooseConfig.js">
           <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -56,9 +57,9 @@
         </file>
       </package>
       <package name="projekti6.controller">
-        <metrics statements="91" coveredstatements="42" conditionals="34" coveredconditionals="4" methods="8" coveredmethods="4"/>
+        <metrics statements="103" coveredstatements="49" conditionals="42" coveredconditionals="8" methods="9" coveredmethods="4"/>
         <file name="blogs.js" path="C:\Users\Juuso Lassila\OneDrive\Asiakirjat\Opiskelu\Harjoitukset\fullstack\fullstack-kurssi-tehtavat\Osa4\projekti6\controller\blogs.js">
-          <metrics statements="52" coveredstatements="29" conditionals="16" coveredconditionals="4" methods="5" coveredmethods="4"/>
+          <metrics statements="64" coveredstatements="36" conditionals="24" coveredconditionals="8" methods="6" coveredmethods="4"/>
           <line num="1" count="1" type="stmt"/>
           <line num="2" count="1" type="stmt"/>
           <line num="3" count="1" type="stmt"/>
@@ -90,27 +91,39 @@
           <line num="46" count="4" type="stmt"/>
           <line num="47" count="4" type="stmt"/>
           <line num="51" count="1" type="stmt"/>
-          <line num="52" count="0" type="stmt"/>
-          <line num="53" count="0" type="stmt"/>
-          <line num="54" count="0" type="stmt"/>
-          <line num="56" count="0" type="stmt"/>
-          <line num="60" count="1" type="stmt"/>
-          <line num="61" count="1" type="stmt"/>
-          <line num="63" count="1" type="stmt"/>
-          <line num="64" count="0" type="cond" truecount="0" falsecount="4"/>
-          <line num="65" count="0" type="stmt"/>
-          <line num="68" count="0" type="stmt"/>
-          <line num="69" count="0" type="cond" truecount="0" falsecount="2"/>
-          <line num="70" count="0" type="stmt"/>
+          <line num="52" count="1" type="stmt"/>
+          <line num="53" count="1" type="stmt"/>
+          <line num="54" count="1" type="cond" truecount="3" falsecount="1"/>
+          <line num="55" count="0" type="stmt"/>
+          <line num="58" count="1" type="cond" truecount="1" falsecount="1"/>
+          <line num="59" count="1" type="stmt"/>
+          <line num="62" count="1" type="stmt"/>
+          <line num="63" count="0" type="stmt"/>
+          <line num="65" count="1" type="stmt"/>
+          <line num="66" count="1" type="stmt"/>
+          <line num="70" count="1" type="stmt"/>
+          <line num="71" count="0" type="stmt"/>
+          <line num="72" count="0" type="stmt"/>
           <line num="73" count="0" type="stmt"/>
-          <line num="74" count="0" type="stmt"/>
-          <line num="76" count="1" type="stmt"/>
+          <line num="75" count="0" type="stmt"/>
+          <line num="79" count="1" type="stmt"/>
           <line num="80" count="1" type="stmt"/>
-          <line num="81" count="1" type="stmt"/>
           <line num="82" count="1" type="stmt"/>
-          <line num="83" count="0" type="stmt"/>
-          <line num="85" count="1" type="stmt"/>
-          <line num="89" count="1" type="stmt"/>
+          <line num="83" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="84" count="0" type="stmt"/>
+          <line num="87" count="0" type="stmt"/>
+          <line num="89" count="0" type="cond" truecount="0" falsecount="4"/>
+          <line num="90" count="0" type="stmt"/>
+          <line num="93" count="0" type="stmt"/>
+          <line num="94" count="0" type="stmt"/>
+          <line num="96" count="1" type="stmt"/>
+          <line num="97" count="1" type="stmt"/>
+          <line num="101" count="1" type="stmt"/>
+          <line num="102" count="0" type="stmt"/>
+          <line num="103" count="0" type="stmt"/>
+          <line num="104" count="0" type="stmt"/>
+          <line num="106" count="0" type="stmt"/>
+          <line num="110" count="1" type="stmt"/>
         </file>
         <file name="login.js" path="C:\Users\Juuso Lassila\OneDrive\Asiakirjat\Opiskelu\Harjoitukset\fullstack\fullstack-kurssi-tehtavat\Osa4\projekti6\controller\login.js">
           <metrics statements="17" coveredstatements="7" conditionals="10" coveredconditionals="0" methods="1" coveredmethods="0"/>
