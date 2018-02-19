@@ -33,17 +33,17 @@ describe("<Blog />", () => {
 	})
 
 	it("Shows only name and author, and after clicking, more info", () => {
-		expect(blog.html()).toEqual(expect.stringContaining("Hieno blogi"))
-		expect(blog.html()).toEqual(expect.stringContaining("Minä"))
-		expect(blog.html()).not.toEqual(expect.stringContaining("ei ole"))
-		expect(blog.html()).not.toEqual(expect.stringContaining("50"))
+		expect(blog.text()).toEqual(expect.stringContaining("Hieno blogi"))
+		expect(blog.text()).toEqual(expect.stringContaining("Minä"))
+		expect(blog.text()).not.toEqual(expect.stringContaining("ei ole"))
+		expect(blog.text()).not.toEqual(expect.stringContaining("50"))
 
 		blog.first().simulate("click")
 
-		expect(blog.html()).toEqual(expect.stringContaining("Hieno blogi"))
-		expect(blog.html()).toEqual(expect.stringContaining("Minä"))
-		expect(blog.html()).toEqual(expect.stringContaining("ei ole"))
-		expect(blog.html()).toEqual(expect.stringContaining("50"))
+		expect(blog.text()).toEqual(expect.stringContaining("Hieno blogi"))
+		expect(blog.text()).toEqual(expect.stringContaining("Minä"))
+		expect(blog.text()).toEqual(expect.stringContaining("ei ole"))
+		expect(blog.text()).toEqual(expect.stringContaining("50"))
 	})
 
 })

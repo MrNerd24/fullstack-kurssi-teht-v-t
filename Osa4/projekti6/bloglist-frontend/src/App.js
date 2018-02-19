@@ -53,6 +53,7 @@ class App extends React.Component {
 		event.preventDefault()
 		this.setState({user: null, notification: "Logged out", color: "green"})
 		this.notification.showMessage(3000)
+		Login.saveLoginInfo("", "")
 	}
 
 	handleAddBlogClick = async (event) => {
