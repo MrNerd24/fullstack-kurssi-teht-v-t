@@ -1,12 +1,13 @@
 import React from 'react'
 import * as Actions from '../Actions'
 import {notify} from "./Notification";
+import {connect} from "react-redux";
 
 class AnecdoteForm extends React.Component {
 	handleSubmit = (e) => {
 		e.preventDefault()
 		const content = e.target.anecdote.value
-		this.props.store.dispatch(Actions.createAnecdote(content))
+		this.props.createAnecdote(content)
 		notify('You created anecdote "' + content + '"')
 
 		e.target.anecdote.value = ''
@@ -24,4 +25,11 @@ class AnecdoteForm extends React.Component {
 	}
 }
 
-export default AnecdoteForm
+const mapDispatchToProps = (dispatch) => {
+	return {
+		createAnecdote: (content) => {dispatch(Actions.createAnecdote(content))}
+	}
+
+}
+
+export default connect(null, mapDispatchToProps)(AnecdoteForm)
