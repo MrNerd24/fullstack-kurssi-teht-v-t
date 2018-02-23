@@ -31,15 +31,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(Notification)
-
-let timeout = null
-
-export const notify = (message) => {
-	if(timeout) {
-		clearTimeout(timeout)
-	}
-	Store.dispatch(Actions.setNotification(message))
-	timeout = setTimeout(() => {
-		Store.dispatch(Actions.setNotification(""))
-	}, 5000)
-}

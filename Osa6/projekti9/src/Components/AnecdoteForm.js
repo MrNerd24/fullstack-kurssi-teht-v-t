@@ -1,17 +1,23 @@
 import React from 'react'
 import * as Actions from '../Actions'
-import {notify} from "./Notification";
 import {connect} from "react-redux";
 
 class AnecdoteForm extends React.Component {
+
+
 	handleSubmit = (e) => {
 		e.preventDefault()
 		const content = e.target.anecdote.value
-		this.props.createAnecdote(content)
-		notify('You created anecdote "' + content + '"')
-
 		e.target.anecdote.value = ''
+		try{
+			this.props.createAnecdote({content, votes:0})
+			this.props.notify('You created anecdote "' + content + '"')
+		} catch (e) {
+			this.props.notify("Failed to add a new anecdote.")
+		}
 	}
+
+
 	render() {
 		return (
 			<div>
@@ -27,7 +33,8 @@ class AnecdoteForm extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		createAnecdote: (content) => {dispatch(Actions.createAnecdote(content))}
+		createAnecdote: (content) => {dispatch(Actions.createAnecdote(content))},
+		notify: (message) => {dispatch(Actions.setNotification(message))}
 	}
 
 }

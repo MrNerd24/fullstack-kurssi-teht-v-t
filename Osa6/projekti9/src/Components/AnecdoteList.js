@@ -1,12 +1,20 @@
 import React from 'react'
 import * as Actions from "../Actions";
-import {notify} from "./Notification";
 import Filter from "./Filter";
 import {connect} from "react-redux";
 
 class AnecdoteList extends React.Component {
 
+	handleVote = async (anecdote) => {
+		try{
+			anecdote.votes++
+			this.props.updateAnecdote(anecdote)
+			this.props.notify('You voted for "' + anecdote.content + '"')
+		} catch (e) {
+			this.props.notify("Something went wrong when trying to add a vote.")
+		}
 
+	}
 
 	render() {
 		return (
@@ -20,11 +28,7 @@ class AnecdoteList extends React.Component {
 						</div>
 						<div>
 							has {anecdote.votes}
-							<button onClick={() => {
-								this.props.voteAnecdote(anecdote.id)
-								notify('You voted for "' + anecdote.content + '"')
-							}
-							}>
+							<button onClick={() => this.handleVote(anecdote)}>
 								vote
 							</button>
 						</div>
@@ -50,7 +54,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		voteAnecdote: (id) => {dispatch(Actions.voteAnecdote(id))}
+		updateAnecdote: (anecdote) => {dispatch(Actions.updateAnecdote(anecdote))},
+		notify: (message) => {dispatch(Actions.setNotification(message))}
 	}
 }
 
