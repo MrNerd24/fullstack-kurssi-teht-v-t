@@ -1,19 +1,51 @@
 import React from 'react'
 import {Route, BrowserRouter as Router, Link} from "react-router-dom";
 
-const Menu = () => (
-	<div>
-		<Link to="/">anecdotes</Link>&nbsp;
-		<Link to="/create">create new</Link>&nbsp;
-		<Link to="/about">about</Link>&nbsp;
-	</div>
-)
+class Menu extends React.Component {
+	render() {
+		return (
+			<div style={this.Style.div}>
+				<Link style={this.Style.link} to="/">anecdotes</Link>
+				<Link style={this.Style.link} to="/create">create new</Link>
+				<Link style={this.Style.link} to="/about">about</Link>
+			</div>
+		)
+	}
+
+	Style = {
+		div: {
+			display: "flex",
+			flexDirection: "row",
+			backgroundColor: "rgb(15,155,253)",
+			height: 50,
+			width: "auto"
+		},
+		link: {
+			alignSelf: "center",
+			fontSize: 20,
+			color: "black",
+			marginLeft: 5,
+			height: 42,
+			verticalAlign: "middle",
+			lineHeight: "42px",
+			textDecoration: "none",
+			borderColor: "black",
+			borderStyle: "solid",
+			borderWidth: 2,
+			borderRadius: 2,
+			padding: 2,
+		}
+	}
+}
+
+
 
 const AnecdoteList = ({anecdotes}) => (
 	<div>
 		<h2>Anecdotes</h2>
 		<ul>
-			{anecdotes.map(anecdote => <li key={anecdote.id}><Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link></li>)}
+			{anecdotes.map(anecdote => <li key={anecdote.id}><Link
+				to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link></li>)}
 		</ul>
 	</div>
 )
@@ -96,7 +128,7 @@ class CreateNew extends React.Component {
 class Anecdote extends React.Component {
 
 	render() {
-		return(
+		return (
 			<div>
 				<h2>{this.props.anecdote.content}</h2>
 				<p>Has {this.props.anecdote.votes} votes.</p>
@@ -111,14 +143,30 @@ class Notification extends React.Component {
 
 
 	render() {
-		if(this.props.notification) {
+		if (this.props.notification) {
 			return (
-				<div>
-					<p>{this.props.notification}</p>
+				<div style={this.Style.div}>
+					<p style={this.Style.p}>{this.props.notification}</p>
 				</div>
 			)
 		}
 		return null
+	}
+
+	Style = {
+		div: {
+			borderColor: "rgb(25,245,20)",
+			borderWidth: 2,
+			borderStyle: "solid",
+			padding: 5,
+			margin: 3,
+			width: 700,
+			borderRadius: 5,
+		},
+		p: {
+			color: "rgb(25,245,20)",
+			fontSize: 20
+		}
 	}
 }
 
@@ -173,7 +221,7 @@ class App extends React.Component {
 
 	timeout = null
 	notify = (message) => {
-		if(this.timeout) {
+		if (this.timeout) {
 			clearTimeout(this.timeout)
 		}
 		this.setState({notification: message})
@@ -190,9 +238,11 @@ class App extends React.Component {
 					<Menu/>
 					<Notification notification={this.state.notification}/>
 					<Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes}/>}/>
-					<Route exact path="/create" render={({history}) => <CreateNew addNew={(anecdote) => this.addNew(anecdote, history)}/>}/>
+					<Route exact path="/create"
+						   render={({history}) => <CreateNew addNew={(anecdote) => this.addNew(anecdote, history)}/>}/>
 					<Route exact path="/about" render={() => <About/>}/>
-					<Route exact path="/anecdotes/:id" render={({match}) => <Anecdote anecdote={this.anecdoteById(match.params.id)} />} />
+					<Route exact path="/anecdotes/:id"
+						   render={({match}) => <Anecdote anecdote={this.anecdoteById(match.params.id)}/>}/>
 					<Footer/>
 				</div>
 			</Router>
