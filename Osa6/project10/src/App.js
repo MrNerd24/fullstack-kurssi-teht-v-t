@@ -1,5 +1,10 @@
 import React from 'react'
 import {Route, BrowserRouter as Router, Link} from "react-router-dom";
+import {
+	Button, ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Grid, TextField,
+	Typography
+} from "material-ui";
+import ExpandMoreIcon from 'material-ui-icons/ExpandMore';
 
 class Menu extends React.Component {
 	render() {
@@ -40,39 +45,43 @@ class Menu extends React.Component {
 
 
 
-const AnecdoteList = ({anecdotes}) => (
+const AnecdoteList = ({anecdotes, expanded, onAnecdoteClick}) => (
 	<div>
-		<h2>Anecdotes</h2>
-		<ul>
-			{anecdotes.map(anecdote => <li key={anecdote.id}><Link
-				to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link></li>)}
-		</ul>
+		<Typography variant="headline">Anecdotes</Typography>
+		{anecdotes.map((anecdote) =>
+			<Anecdote anecdote={anecdote} expanded={anecdote.id === expanded} onClick={onAnecdoteClick}/>
+		)}
 	</div>
 )
 
 const About = () => (
-	<div>
-		<h2>About anecdote app</h2>
-		<p>According to Wikipedia:</p>
+	<Grid container spacing={16}>
+		<Grid item xs={9}>
+			<h2>About anecdote app</h2>
+			<p>According to Wikipedia:</p>
 
-		<em>An anecdote is a brief, revealing account of an individual person or an incident.
-			Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke
-			laughter but to reveal a truth more general than the brief tale itself,
-			such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea
-			about a person, place, or thing through the concrete details of a short narrative.
-			An anecdote is "a story with a point."</em>
+			<em>An anecdote is a brief, revealing account of an individual person or an incident.
+				Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke
+				laughter but to reveal a truth more general than the brief tale itself,
+				such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea
+				about a person, place, or thing through the concrete details of a short narrative.
+				An anecdote is "a story with a point."</em>
 
-		<p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
-	</div>
+			<p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+		</Grid>
+		<Grid item xs={3}>
+			<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Alan_Turing_Aged_16.jpg/330px-Alan_Turing_Aged_16.jpg"/>
+		</Grid>
+	</Grid>
 )
 
 const Footer = () => (
-	<div>
+	<Typography style={{marginTop: 10}}>
 		Anecdote app for <a href='https://courses.helsinki.fi/fi/TKT21009/121540749'>Full Stack -sovelluskehitys</a>.
 
 		See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for
 		the source code.
-	</div>
+	</Typography>
 )
 
 class CreateNew extends React.Component {
@@ -104,20 +113,17 @@ class CreateNew extends React.Component {
 		return (
 			<div>
 				<h2>create a new anecdote</h2>
-				<form onSubmit={this.handleSubmit}>
+				<form>
 					<div>
-						content
-						<input name='content' value={this.state.content} onChange={this.handleChange}/>
+						<TextField label='Content' name="content" value={this.state.content} onChange={this.handleChange}/>
 					</div>
 					<div>
-						author
-						<input name='author' value={this.state.author} onChange={this.handleChange}/>
+						<TextField label='Author' name="author" value={this.state.author} onChange={this.handleChange}/>
 					</div>
 					<div>
-						url for more info
-						<input name='info' value={this.state.info} onChange={this.handleChange}/>
+						<TextField label='Url for more info' name="info" value={this.state.info} onChange={this.handleChange}/>
 					</div>
-					<button>create</button>
+					<Button onClick={this.handleSubmit} style={{marginTop: 10}} color="primary" variant="raised">create</Button>
 				</form>
 			</div>
 		)
@@ -129,11 +135,19 @@ class Anecdote extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<h2>{this.props.anecdote.content}</h2>
-				<p>Has {this.props.anecdote.votes} votes.</p>
-				<p>For more info see <a href={this.props.anecdote.info}>{this.props.anecdote.info}</a></p>
-			</div>
+			<ExpansionPanel expanded={this.props.expanded} onChange={() => this.props.onClick(this.props.expanded ? null : this.props.anecdote.id)}>
+				<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+					<Typography variant="headline">{this.props.anecdote.content}</Typography>
+				</ExpansionPanelSummary>
+				<ExpansionPanelDetails style={{display:"block"}}>
+					<div>
+						<Typography>Has {this.props.anecdote.votes} votes.</Typography>
+					</div>
+					<div>
+						<Typography>For more info see <a href={this.props.anecdote.info}>{this.props.anecdote.info}</a> </Typography>
+					</div>
+				</ExpansionPanelDetails>
+			</ExpansionPanel>
 		)
 	}
 
@@ -192,7 +206,8 @@ class App extends React.Component {
 					id: '2'
 				}
 			],
-			notification: ''
+			notification: '',
+			expandedAnecdote: null
 		}
 	}
 
@@ -234,15 +249,13 @@ class App extends React.Component {
 		return (
 			<Router>
 				<div>
-					<h1>Software anecdotes</h1>
+					<Typography variant="title">Software anecdotes</Typography>
 					<Menu/>
 					<Notification notification={this.state.notification}/>
-					<Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes}/>}/>
+					<Route exact path="/" render={() => <AnecdoteList onAnecdoteClick={(id) => this.setState({expandedAnecdote: id})} expanded={this.state.expandedAnecdote} anecdotes={this.state.anecdotes}/>}/>
 					<Route exact path="/create"
 						   render={({history}) => <CreateNew addNew={(anecdote) => this.addNew(anecdote, history)}/>}/>
 					<Route exact path="/about" render={() => <About/>}/>
-					<Route exact path="/anecdotes/:id"
-						   render={({match}) => <Anecdote anecdote={this.anecdoteById(match.params.id)}/>}/>
 					<Footer/>
 				</div>
 			</Router>
