@@ -11,7 +11,7 @@ Router.get('/', async (request, response) => {
 		response.json(blogs.map(Blog.format))
 	} catch (e) {
 		console.log(e)
-		response.status(400).json({error: 'Something went wrong.'})
+		response.status(500).json({error: 'Something went wrong.'})
 	}
 })
 
